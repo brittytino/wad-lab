@@ -1,0 +1,14 @@
+{
+  "name": "fullstack-crud-apps",
+  "version": "1.0.0",
+  "description": "Full-Stack CRUD Applications with React, Node.js, and MongoDB",
+  "scripts": {
+    "install-all": "cd backend && npm install && cd ../frontend && npm install",
+    "backend": "cd backend && npm start",
+    "frontend": "cd frontend && npm start",
+    "dev-backend": "cd backend && npm run dev"
+  },
+  "keywords": ["react", "nodejs", "mongodb", "crud", "fullstack"],
+  "author": "",
+  "license": "MIT"
+}
