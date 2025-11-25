@@ -117,6 +117,97 @@ const feedbackSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 });
 
+// 10. Event Registration Schema
+const eventSchema = new mongoose.Schema({
+  eventId: { type: String, required: true, unique: true },
+  eventName: { type: String, required: true },
+  date: { type: Date, required: true },
+  venue: String,
+  capacity: Number,
+  registered: { type: Number, default: 0 },
+  description: String,
+  createdAt: { type: Date, default: Date.now }
+});
+
+// 11. Bookstore Schema
+const bookstoreSchema = new mongoose.Schema({
+  isbn: { type: String, required: true, unique: true },
+  title: { type: String, required: true },
+  author: String,
+  publisher: String,
+  price: Number,
+  genre: String,
+  stock: { type: Number, default: 0 },
+  createdAt: { type: Date, default: Date.now }
+});
+
+// 12. Grade Tracker Schema
+const gradeSchema = new mongoose.Schema({
+  studentRoll: { type: String, required: true },
+  studentName: { type: String, required: true },
+  subject: String,
+  marks: Number,
+  maxMarks: Number,
+  percentage: Number,
+  grade: String,
+  semester: String,
+  examType: String,
+  createdAt: { type: Date, default: Date.now }
+});
+
+// 13. Contact Management Schema
+const contactSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: String,
+  phone: String,
+  address: String,
+  category: String,
+  company: String,
+  createdAt: { type: Date, default: Date.now }
+});
+
+// 14. Restaurant Order Schema
+const restaurantSchema = new mongoose.Schema({
+  orderNumber: { type: String, required: true, unique: true },
+  customerName: { type: String, required: true },
+  tableNumber: String,
+  items: String,
+  totalAmount: Number,
+  status: { type: String, default: 'Pending' },
+  notes: String,
+  createdAt: { type: Date, default: Date.now }
+});
+
+// 15. Car Rental Schema
+const carRentalSchema = new mongoose.Schema({
+  bookingId: { type: String, required: true, unique: true },
+  customerName: { type: String, required: true },
+  email: String,
+  phone: String,
+  carModel: String,
+  carType: String,
+  startDate: Date,
+  rentalDays: Number,
+  pricePerDay: Number,
+  totalCost: Number,
+  status: { type: String, default: 'Reserved' },
+  createdAt: { type: Date, default: Date.now }
+});
+
+// 16. Job Portal Schema
+const jobSchema = new mongoose.Schema({
+  jobId: { type: String, required: true, unique: true },
+  title: { type: String, required: true },
+  company: String,
+  location: String,
+  salary: String,
+  jobType: String,
+  experience: String,
+  description: String,
+  status: { type: String, default: 'Open' },
+  createdAt: { type: Date, default: Date.now }
+});
+
 // Models
 const Todo = mongoose.model('Todo', todoSchema);
 const Student = mongoose.model('Student', studentSchema);
@@ -127,6 +218,13 @@ const Product = mongoose.model('Product', productSchema);
 const Expense = mongoose.model('Expense', expenseSchema);
 const Attendance = mongoose.model('Attendance', attendanceSchema);
 const Feedback = mongoose.model('Feedback', feedbackSchema);
+const Event = mongoose.model('Event', eventSchema);
+const Bookstore = mongoose.model('Bookstore', bookstoreSchema);
+const Grade = mongoose.model('Grade', gradeSchema);
+const Contact = mongoose.model('Contact', contactSchema);
+const Restaurant = mongoose.model('Restaurant', restaurantSchema);
+const CarRental = mongoose.model('CarRental', carRentalSchema);
+const Job = mongoose.model('Job', jobSchema);
 
 // ========== GENERIC CRUD FUNCTIONS ==========
 
@@ -210,7 +308,14 @@ app.get('/', (req, res) => {
       products: '/api/products',
       expenses: '/api/expenses',
       attendance: '/api/attendance',
-      feedback: '/api/feedback'
+      feedback: '/api/feedback',
+      events: '/api/events',
+      bookstore: '/api/bookstore',
+      grades: '/api/grades',
+      contacts: '/api/contacts',
+      restaurant: '/api/restaurant',
+      carrental: '/api/carrental',
+      jobs: '/api/jobs'
     }
   });
 });
@@ -286,6 +391,62 @@ app.get('/api/feedback', feedbackCRUD.getAll);
 app.get('/api/feedback/:id', feedbackCRUD.getOne);
 app.put('/api/feedback/:id', feedbackCRUD.update);
 app.delete('/api/feedback/:id', feedbackCRUD.delete);
+
+// 10. EVENT ROUTES
+const eventCRUD = createCRUD(Event);
+app.post('/api/events', eventCRUD.create);
+app.get('/api/events', eventCRUD.getAll);
+app.get('/api/events/:id', eventCRUD.getOne);
+app.put('/api/events/:id', eventCRUD.update);
+app.delete('/api/events/:id', eventCRUD.delete);
+
+// 11. BOOKSTORE ROUTES
+const bookstoreCRUD = createCRUD(Bookstore);
+app.post('/api/bookstore', bookstoreCRUD.create);
+app.get('/api/bookstore', bookstoreCRUD.getAll);
+app.get('/api/bookstore/:id', bookstoreCRUD.getOne);
+app.put('/api/bookstore/:id', bookstoreCRUD.update);
+app.delete('/api/bookstore/:id', bookstoreCRUD.delete);
+
+// 12. GRADE ROUTES
+const gradeCRUD = createCRUD(Grade);
+app.post('/api/grades', gradeCRUD.create);
+app.get('/api/grades', gradeCRUD.getAll);
+app.get('/api/grades/:id', gradeCRUD.getOne);
+app.put('/api/grades/:id', gradeCRUD.update);
+app.delete('/api/grades/:id', gradeCRUD.delete);
+
+// 13. CONTACT ROUTES
+const contactCRUD = createCRUD(Contact);
+app.post('/api/contacts', contactCRUD.create);
+app.get('/api/contacts', contactCRUD.getAll);
+app.get('/api/contacts/:id', contactCRUD.getOne);
+app.put('/api/contacts/:id', contactCRUD.update);
+app.delete('/api/contacts/:id', contactCRUD.delete);
+
+// 14. RESTAURANT ROUTES
+const restaurantCRUD = createCRUD(Restaurant);
+app.post('/api/restaurant', restaurantCRUD.create);
+app.get('/api/restaurant', restaurantCRUD.getAll);
+app.get('/api/restaurant/:id', restaurantCRUD.getOne);
+app.put('/api/restaurant/:id', restaurantCRUD.update);
+app.delete('/api/restaurant/:id', restaurantCRUD.delete);
+
+// 15. CAR RENTAL ROUTES
+const carRentalCRUD = createCRUD(CarRental);
+app.post('/api/carrental', carRentalCRUD.create);
+app.get('/api/carrental', carRentalCRUD.getAll);
+app.get('/api/carrental/:id', carRentalCRUD.getOne);
+app.put('/api/carrental/:id', carRentalCRUD.update);
+app.delete('/api/carrental/:id', carRentalCRUD.delete);
+
+// 16. JOB PORTAL ROUTES
+const jobCRUD = createCRUD(Job);
+app.post('/api/jobs', jobCRUD.create);
+app.get('/api/jobs', jobCRUD.getAll);
+app.get('/api/jobs/:id', jobCRUD.getOne);
+app.put('/api/jobs/:id', jobCRUD.update);
+app.delete('/api/jobs/:id', jobCRUD.delete);
 
 // Start server
 app.listen(PORT, () => {
